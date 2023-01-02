@@ -4,20 +4,30 @@ project( mul )
 
 set( CMAKE_CXX_STANDARD 20 )
 
+set(GLEW_USE_STATIC_LIBS TRUE)
+add_subdirectory(3rd_party/glew)
+find_package(OpenGL REQUIRED)
 add_subdirectory(3rd_party/glfw)
+add_subdirectory(3rd_party/stb)
+add_subdirectory(3rd_party/imgui)
 
 set(mul_sources
+    sources/mul_widget.cpp
     sources/mul_window.cpp
     sources/mul_context.cpp
     sources/mul_context_holder.cpp
+    sources/mul_image.cpp
+
+    sources/widgets/mul_button.cpp
 )
 
 add_library(mul ${mul_sources})
 
 target_include_directories( mul
-        PUBLIC includes)
+        PUBLIC includes
+        PUBLIC ${GLEW_INCLUDE_DIR})
 
-target_link_libraries( mul glfw )
+target_link_libraries( mul glew_s glfw OpenGL::GL stb imgui )
 
 add_executable(mul_test sources/main.cpp)
 

@@ -1,5 +1,5 @@
 #include "mul_window.h"
-#include "GLFW/glfw3.h"
+#include "mul_opengl.h"
 #include "mul_context.h"
 
 void MulWindow::init(const std::string& title, const Vec2I& size) {
@@ -10,11 +10,14 @@ void MulWindow::init(const std::string& title, const Vec2I& size) {
         glfwSetWindowCloseCallback(m_window, [](GLFWwindow *window){ 
             static_cast<MulWindow*>(glfwGetWindowUserPointer(window))->deinit(); 
         });
+        glfwMakeContextCurrent(m_window);
+        ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+        ImGui_ImplOpenGL3_Init("#version 130");
     } else {
         glfwSetWindowTitle(m_window, title.c_str());
         glfwSetWindowSize(m_window, size.getX(), size.getY());
     }
-    onInit();
+    MulWidget::init();
 }
 
 void MulWindow::deinit() {
@@ -22,6 +25,40 @@ void MulWindow::deinit() {
         MulContext::getCurrentContext().unregisterWindow(this);
         glfwDestroyWindow(m_window);
         m_window = nullptr;
+    }
+}
+
+void MulWindow::draw() const {
+    if(m_window) {        
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+#ifdef IMGUI_HAS_VIEWPORT
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->GetWorkPos());
+        ImGui::SetNextWindowSize(viewport->GetWorkSize());
+        ImGui::SetNextWindowViewport(viewport->ID);
+#else 
+        ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+        ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+#endif
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+
+        ImGui::Begin("Hello, world!", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+        MulWidget::draw();
+        ImGui::End();
+        ImGui::PopStyleVar();
+
+        ImGui::Render();
+        int display_w, display_h;
+        glfwGetFramebufferSize(m_window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glfwSwapBuffers(m_window);
     }
 }
 
@@ -42,3 +79,7 @@ bool MulWindow::isClosed() const {
 }
 
 void MulWindow::onInit() {}
+
+void MulWindow::onDraw() const {}
+
+void MulWindow::onUpdate(float dt) {}

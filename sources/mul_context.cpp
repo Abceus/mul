@@ -1,7 +1,7 @@
 #include "mul_context.h"
-#include <GLFW/glfw3.h>
-#include <gl/gl.h>
+#include "mul_opengl.h"
 #include <iostream>
+#include "imgui.h"
 
 void MulContext::init() {
     if (!glfwInit()) {
@@ -16,20 +16,46 @@ void MulContext::init() {
     glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
     glfwSwapInterval(1);
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsLight();
+}
+
+void MulContext::deinit() {
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    clearWindows();
+    glfwTerminate();
 }
 
 void MulContext::run() {
     while(!m_windows.empty()) {
-        glfwPollEvents();
-
         for(auto it = std::begin(m_windows); it != std::end(m_windows);) {
             if((*it)->isClosed()) {
                 it = m_windows.erase(it);
             } else {
+                (*it)->draw();
                 ++it;
             }
         }
+        glfwPollEvents();
     }
+}
+
+void MulContext::clearWindows() {
+    for(auto it = std::begin(m_windows); it != std::end(m_windows);) {
+        delete *it;
+    }
+    m_windows.clear();
 }
 
 MulContext& MulContext::getCurrentContext() {

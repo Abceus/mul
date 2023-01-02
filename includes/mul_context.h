@@ -9,8 +9,10 @@ class MulContext {
 public:
     MulContext(const MulContext& other) = delete;
     void init();
+    void deinit();
     void run();
 
+    void clearWindows();
 
     MulContext& operator=(const MulContext& other) = delete;
     
