@@ -8,7 +8,7 @@ class MulCallbackOwner {
 public:
     MulCallbackOwner() = default;
     MulCallbackOwner(const std::function<void(T...)>& newCallback);
-    void call(T&&... args) const;
+    void call(auto&&... args) const;
     void remove();
 
     bool isValid() const;
@@ -19,7 +19,7 @@ private:
 template<typename... T>
 class MulCallbackCollection {
 public:
-    void call(T&& ...) const;
+    void call(auto&& ...) const;
 
     void addCallback(const std::weak_ptr<MulCallbackOwner<T...>>& newCallback);
     void removeCallback(const std::weak_ptr<MulCallbackOwner<T...>>& callbackForRemove);
@@ -31,9 +31,9 @@ template<typename... T>
 MulCallbackOwner<T...>::MulCallbackOwner(const std::function<void(T...)>& newCallback) : callback(newCallback) {}
 
 template<typename... T>
-void MulCallbackOwner<T...>::call(T&&... args) const {
+void MulCallbackOwner<T...>::call(auto&&... args) const {
     if(callback) {
-        callback(std::forward<T...>(args)...);
+        callback(std::forward<decltype(args)>(args)...);
     }
 }
 
@@ -48,10 +48,10 @@ bool MulCallbackOwner<T...>::isValid() const {
 }
 
 template<typename... T>
-void MulCallbackCollection<T...>::call(T&&... args) const {
+void MulCallbackCollection<T...>::call(auto&&... args) const {
     for(auto it = std::begin(callbacks); it != std::end(callbacks);) {
         if(auto lockedCallback = it->lock(); lockedCallback && lockedCallback->isValid()) {
-            lockedCallback->call(std::forward<T...>(args)...);
+            lockedCallback->call(std::forward<decltype(args)>(args)...);
             ++it;
         }
         else {

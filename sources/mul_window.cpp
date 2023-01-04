@@ -28,7 +28,7 @@ void MulWindow::deinit() {
     }
 }
 
-void MulWindow::draw() const {
+void MulWindow::draw() {
     if(m_window) {        
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -80,6 +80,6 @@ bool MulWindow::isClosed() const {
 
 void MulWindow::onInit() {}
 
-void MulWindow::onDraw() const {}
+void MulWindow::onDraw() {}
 
 void MulWindow::onUpdate(float dt) {}

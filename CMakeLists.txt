@@ -20,6 +20,7 @@ set(mul_sources
 
     sources/widgets/mul_button.cpp
     sources/widgets/mul_label.cpp
+    sources/widgets/mul_checkbox.cpp
 )
 
 add_library(mul ${mul_sources})

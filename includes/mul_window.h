@@ -11,7 +11,7 @@ public:
     void init(const std::string& title, const Vec2I& size);
     void deinit();
 
-    void draw() const override;
+    void draw() override;
     
     void show();
     void hide();
@@ -19,7 +19,7 @@ public:
     bool isClosed() const;
 
     void onInit() override;
-    void onDraw() const override;
+    void onDraw() override;
     void onUpdate(float dt) override;
 
 private:

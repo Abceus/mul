@@ -4,7 +4,7 @@ void MulWidget::init() {
     onInit();
 }
 
-void MulWidget::draw() const {
+void MulWidget::draw() {
     for(const auto& child: childrens) {
         child->draw();
     }
