@@ -19,6 +19,7 @@ set(mul_sources
     sources/mul_image.cpp
 
     sources/widgets/mul_button.cpp
+    sources/widgets/mul_label.cpp
 )
 
 add_library(mul ${mul_sources})
