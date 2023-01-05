@@ -22,6 +22,7 @@ set(mul_sources
     sources/widgets/mul_label.cpp
     sources/widgets/mul_checkbox.cpp
     sources/widgets/mul_combobox.cpp
+    sources/widgets/mul_float_input.cpp
 )
 
 add_library(mul ${mul_sources})
