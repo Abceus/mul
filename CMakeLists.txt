@@ -10,6 +10,7 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(3rd_party/glfw)
 add_subdirectory(3rd_party/stb)
 add_subdirectory(3rd_party/imgui)
+add_subdirectory(3rd_party/nativefiledialog)
 
 set(mul_sources
     sources/mul_widget.cpp
@@ -23,6 +24,8 @@ set(mul_sources
     sources/widgets/mul_checkbox.cpp
     sources/widgets/mul_combobox.cpp
     sources/widgets/mul_float_input.cpp
+    sources/widgets/mul_file_picker.cpp
+    sources/widgets/mul_horizontal_layout.cpp
 )
 
 add_library(mul ${mul_sources})
@@ -31,7 +34,7 @@ target_include_directories( mul
         PUBLIC includes
         PUBLIC ${GLEW_INCLUDE_DIR})
 
-target_link_libraries( mul glew_s glfw OpenGL::GL stb imgui )
+target_link_libraries( mul glew_s glfw OpenGL::GL stb imgui nfd)
 
 add_executable(mul_test sources/main.cpp)
 

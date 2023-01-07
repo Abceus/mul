@@ -43,6 +43,7 @@ void MulContext::run() {
             if((*it)->isClosed()) {
                 it = m_windows.erase(it);
             } else {
+                (*it)->update(0.1f);
                 (*it)->draw();
                 ++it;
             }

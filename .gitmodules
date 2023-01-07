@@ -7,3 +7,6 @@
 [submodule "3rd_party/stb/stb"]
 	path = 3rd_party/stb/stb
 	url = https://github.com/nothings/stb.git
+[submodule "3rd_party/nativefiledialog/nativefiledialog"]
+	path = 3rd_party/nativefiledialog/nativefiledialog
+	url = https://github.com/mlabbe/nativefiledialog.git
