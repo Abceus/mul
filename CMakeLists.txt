@@ -26,6 +26,7 @@ set(mul_sources
     sources/widgets/mul_float_input.cpp
     sources/widgets/mul_file_picker.cpp
     sources/widgets/mul_horizontal_layout.cpp
+    sources/widgets/mul_grid_layout.cpp
     sources/widgets/mul_splitter.cpp
 )
 

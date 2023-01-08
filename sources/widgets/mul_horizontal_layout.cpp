@@ -6,14 +6,15 @@
 
 void MulHorizontalLayout::draw() {
     auto availableSpace = ImGui::GetContentRegionAvail().x;
-    float allHorizontalSpace = std::accumulate(std::begin(childrens), std::end(childrens), 0.0f, 
-    [&availableSpace](float a, std::shared_ptr<MulWidget> b){
-        if(b->getFitPolicy() == FitPolicy::Fix) {
-            availableSpace -= b->getWidth();
-            return a;
+    float allHorizontalSpace = 0.0f;
+    for(const auto& child: childrens) {
+        if(child->getFitPolicy() == FitPolicy::Fix) {
+            availableSpace -= child->getWidth();
         }
-        return a + b->getFillHorizontalSpace();
-    });
+        else {
+            allHorizontalSpace += child->getFillHorizontalSpace();
+        }
+    }
     auto skipedSpace = 0.0f;
     auto startCursorPosition = ImGui::GetCursorPos().x;
     for(const auto& child: childrens) {
