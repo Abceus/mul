@@ -28,6 +28,7 @@ set(mul_sources
     sources/widgets/mul_horizontal_layout.cpp
     sources/widgets/mul_grid_layout.cpp
     sources/widgets/mul_splitter.cpp
+    sources/widgets/mul_opengl_canvas.cpp
 )
 
 add_library(mul ${mul_sources})

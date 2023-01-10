@@ -17,6 +17,7 @@ void MulWindow::init(const std::string& title, const Vec2I& size) {
         glfwSetWindowTitle(m_window, title.c_str());
         glfwSetWindowSize(m_window, size.getX(), size.getY());
     }
+    glewInit();
     MulWidget::init();
 }
 

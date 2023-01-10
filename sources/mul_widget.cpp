@@ -1,4 +1,5 @@
 #include "imgui.h"
+#include <iterator>
 #include <mul_widget.h>
 
 void MulWidget::init() {
@@ -12,6 +13,8 @@ void MulWidget::draw() {
     ImGui::PushItemWidth(width);
     onDraw();
     ImGui::PopItemWidth();
+    childrens.insert(std::end(childrens), std::begin(childrensForAdd), std::end(childrensForAdd));
+    childrensForAdd.clear();
 }
 
 void MulWidget::update(float dt) {
@@ -22,7 +25,7 @@ void MulWidget::update(float dt) {
 }
 
 void MulWidget::addChild(const std::shared_ptr<MulWidget>& newChild) {
-    childrens.emplace_back(newChild);
+    childrensForAdd.emplace_back(newChild);
 }
 
 float MulWidget::getFillHorizontalSpace() const {

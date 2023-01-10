@@ -29,6 +29,7 @@ public:
     void setFitPolicy(FitPolicy value);
 protected:
     std::vector<std::shared_ptr<MulWidget>> childrens;
+    std::vector<std::shared_ptr<MulWidget>> childrensForAdd;
 
     float fillHorizontalSpace = 1.0f;
     float width = 0.0f;
