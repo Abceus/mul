@@ -21,6 +21,7 @@ void MulGridLayout::draw() {
 
     onDraw();
     ImGui::PopID();
+    updateChildrenList();
 }
 
 void MulGridLayout::setColumns(int value) {

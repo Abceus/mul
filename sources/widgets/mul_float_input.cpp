@@ -12,10 +12,9 @@ void MulFloatInput::onDraw() {
     ImGui::PopID();
 }
 
-std::shared_ptr<MulCallbackOwner<float>> MulFloatInput::addChangeValueCallback(const std::function<void(float)>& newCallback) {
-    auto result = std::make_shared<MulCallbackOwner<float>>(newCallback);
-    callbackCollection.addCallback(result);
-    return result;
+void MulFloatInput::addChangeValueCallback(ChangeValueCallbackType& outHandler, const std::function<void(float)>& newCallback) {
+    outHandler = std::make_shared<MulCallbackOwner<float>>(newCallback);
+    callbackCollection.addCallback(outHandler);
 }
 
 void MulFloatInput::setValue(float newValue) {

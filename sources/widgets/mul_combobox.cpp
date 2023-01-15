@@ -18,10 +18,9 @@ void MulCombobox::onDraw() {
     ImGui::PopID();
 }
 
-std::shared_ptr<MulCallbackOwner<size_t, std::string>> MulCombobox::addChangeValueCallback(const std::function<void(size_t, std::string)>& newCallback) {
-    auto result = std::make_shared<MulCallbackOwner<size_t, std::string>>(newCallback);
-    callbackCollection.addCallback(result);
-    return result;
+void MulCombobox::addChangeValueCallback(ChangeValueCallbackType& outHandler, const std::function<void(size_t, std::string)>& newCallback) {
+    outHandler = std::make_shared<MulCallbackOwner<size_t, std::string>>(newCallback);
+    callbackCollection.addCallback(outHandler);
 }
 
 void MulCombobox::setVariants(const std::vector<std::string>& newVariants) {

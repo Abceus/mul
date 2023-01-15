@@ -16,13 +16,17 @@ public:
     void onUpdate(float dt) override {}
     void onInit() override;
 
-    [[nodiscard]]
-    std::shared_ptr<MulCallbackOwner<std::filesystem::path>> addChangePathCallback(const std::function<void(std::filesystem::path)>& newCallback);
+    void setFilter(const std::string& filter);
+
+    using ChangePathCallbackType = std::shared_ptr<MulCallbackOwner<std::filesystem::path>>;
+    void addChangePathCallback(ChangePathCallbackType& outHandler, const std::function<void(std::filesystem::path)>& newCallback);
 private:
     std::shared_ptr<MulButton> button;
     std::shared_ptr<MulLabel> pathLabel;
 
-    std::shared_ptr<MulCallbackOwner<>> buttonCallback;
+    MulButton::ClickCallbackType buttonCallback;
 
     MulCallbackCollection<std::filesystem::path> callbackCollection;
+
+    std::string filter;
 };

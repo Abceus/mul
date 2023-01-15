@@ -43,8 +43,13 @@ void MulContext::run() {
             if((*it)->isClosed()) {
                 it = m_windows.erase(it);
             } else {
-                (*it)->update(0.1f);
+                for(const auto& event: ImGui::GetCurrentContext()->InputEventsQueue) {
+                    if(event.Type == ImGuiInputEventType::ImGuiInputEventType_Key && event.Key.Down) {
+                        (*it)->onKeyPressed(event);
+                    }
+                }
                 (*it)->draw();
+                (*it)->update(0.1f);
                 ++it;
             }
         }

@@ -16,7 +16,8 @@ public:
     void setValue(bool newValue);
     bool getValue() const;
 
-    std::shared_ptr<MulCallbackOwner<bool>> addChangeValueCallback(const std::function<void(bool)>& newCallback);
+    using ChangeCalueCallbackType = std::shared_ptr<MulCallbackOwner<bool>>;
+    void addChangeValueCallback(ChangeCalueCallbackType& outHandler, const std::function<void(bool)>& newCallback);
 private:
     MulCallbackCollection<bool> callbackCollection;
 

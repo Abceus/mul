@@ -19,7 +19,8 @@ public:
     std::string getValue() const;
     size_t getIndex() const;
 
-    std::shared_ptr<MulCallbackOwner<size_t, std::string>> addChangeValueCallback(const std::function<void(size_t, std::string)>& newCallback);
+    using ChangeValueCallbackType = std::shared_ptr<MulCallbackOwner<size_t, std::string>>;
+    void addChangeValueCallback(ChangeValueCallbackType& outHandler, const std::function<void(size_t, std::string)>& newCallback);
 private:
     MulCallbackCollection<size_t, std::string> callbackCollection;
 

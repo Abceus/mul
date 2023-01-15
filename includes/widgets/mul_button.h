@@ -16,8 +16,8 @@ public:
     void setText(const std::string& newText);
     std::string getText() const;
 
-    [[nodiscard]]
-    std::shared_ptr<MulCallbackOwner<>> addClickCallback(const std::function<void()>& newCallback);
+    using ClickCallbackType = std::shared_ptr<MulCallbackOwner<>>;
+    void addClickCallback(ClickCallbackType& outHandler, const std::function<void()>& newCallback);
 private:
     MulCallbackCollection<> callbackCollection;
     std::string text;

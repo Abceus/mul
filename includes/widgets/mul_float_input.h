@@ -15,7 +15,8 @@ public:
     void setValue(float newValue);
     float getValue() const;
 
-    std::shared_ptr<MulCallbackOwner<float>> addChangeValueCallback(const std::function<void(float)>& newCallback);
+    using ChangeValueCallbackType = std::shared_ptr<MulCallbackOwner<float>>;
+    void addChangeValueCallback(ChangeValueCallbackType& outHandler, const std::function<void(float)>& newCallback);
 private:
     MulCallbackCollection<float> callbackCollection;
 

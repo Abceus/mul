@@ -27,4 +27,5 @@ void MulHorizontalLayout::draw() {
     }
     ImGui::NewLine();
     onDraw();
+    updateChildrenList();
 }

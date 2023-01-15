@@ -9,10 +9,9 @@ void MulCheckbox::onDraw() {
     ImGui::PopID();
 }
 
-std::shared_ptr<MulCallbackOwner<bool>> MulCheckbox::addChangeValueCallback(const std::function<void(bool)>& newCallback) {
-    auto result = std::make_shared<MulCallbackOwner<bool>>(newCallback);
-    callbackCollection.addCallback(result);
-    return result;
+void MulCheckbox::addChangeValueCallback(ChangeCalueCallbackType& outHandler, const std::function<void(bool)>& newCallback) {
+    outHandler = std::make_shared<MulCallbackOwner<bool>>(newCallback);
+    callbackCollection.addCallback(outHandler);
 }
 
 void MulCheckbox::setValue(bool newValue) {

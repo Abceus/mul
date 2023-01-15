@@ -1,5 +1,6 @@
 #include "widgets/mul_opengl_canvas.h"
 #include <imgui.h>
+#include "imgui_internal.h"
 #include "mul_opengl.h"
 
 static void DrawCallback(const ImDrawList* parent_list, const ImDrawCmd* cmd) {
@@ -12,6 +13,7 @@ void MulOpenglCanvas::onDraw() {
     glDraw();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     ImGui::Image(reinterpret_cast<void*>(renderedTexture), {300.0f, 300.0f});
+    // if(ImGui::GetFocusID())
     //ImGui::GetWindowDrawList()->AddCallback(&DrawCallback, &frameBufferId);
 }
 

@@ -17,8 +17,7 @@ std::string MulButton::getText() const {
     return text;
 }
 
-std::shared_ptr<MulCallbackOwner<>> MulButton::addClickCallback(const std::function<void()>& newCallback) {
-    auto result = std::make_shared<MulCallbackOwner<>>(newCallback);
-    callbackCollection.addCallback(result);
-    return result;
+void MulButton::addClickCallback(ClickCallbackType& outHandler, const std::function<void()>& newCallback) {
+    outHandler = std::make_shared<MulCallbackOwner<>>(newCallback);
+    callbackCollection.addCallback(outHandler);
 }

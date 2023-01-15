@@ -18,9 +18,9 @@ void MulFilePicker::onInit() {
 
     button = std::make_shared<MulButton>();
     button->setText("Select");
-    buttonCallback = button->addClickCallback([this](){
+    button->addClickCallback(buttonCallback, [this](){
         nfdchar_t *outPath = NULL;
-        nfdresult_t result = NFD_OpenDialog( NULL, NULL, &outPath );
+        nfdresult_t result = NFD_OpenDialog( filter.empty() ? nullptr : filter.c_str(), NULL, &outPath );
             
         if ( result == NFD_OKAY ) {
             pathLabel->setText(outPath);
@@ -39,9 +39,11 @@ void MulFilePicker::onInit() {
     layout->addChild(button);
 }
 
+void MulFilePicker::setFilter(const std::string& filter_) {
+    filter = filter_;
+}
 
-std::shared_ptr<MulCallbackOwner<std::filesystem::path>> MulFilePicker::addChangePathCallback(const std::function<void(std::filesystem::path)>& newCallback) {
-    auto result = std::make_shared<MulCallbackOwner<std::filesystem::path>>(newCallback);
-    callbackCollection.addCallback(result);
-    return result;
+void MulFilePicker::addChangePathCallback(ChangePathCallbackType& outHandler, const std::function<void(std::filesystem::path)>& newCallback) {
+    outHandler = std::make_shared<MulCallbackOwner<std::filesystem::path>>(newCallback);
+    callbackCollection.addCallback(outHandler);
 }
