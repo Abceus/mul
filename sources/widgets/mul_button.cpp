@@ -3,7 +3,7 @@
 
 void MulButton::onDraw() {
     ImGui::PushID(this);
-    if (ImGui::Button(text.c_str(), ImVec2(width, 0))) {
+    if (ImGui::Button(text.c_str(), ImVec2(getWidth(), getHeight()))) {
         callbackCollection.call();
     }
     ImGui::PopID();

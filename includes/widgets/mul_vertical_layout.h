@@ -5,8 +5,8 @@
 #include <functional>
 #include <string>
 
-class MulHorizontalLayout : public MulLayout {
+class MulVerticalLayout : public MulLayout {
 public:
-    MulHorizontalLayout() = default;
+    MulVerticalLayout() = default;
     void draw() override;
 };

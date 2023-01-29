@@ -3,7 +3,9 @@
 
 
 void MulLabel::onDraw() {
+    ImGui::PushItemWidth(getWidth());
     ImGui::Text("%s", text.c_str());
+    ImGui::PopItemWidth();
 }
 
 void MulLabel::setText(const std::string& _text) {

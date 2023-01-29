@@ -2,79 +2,104 @@
 #include "imgui_internal.h"
 #include <iterator>
 #include <mul_widget.h>
+#include "mul_layout.h"
 
 void MulWidget::init() {
 }
 
 void MulWidget::draw() {
-    ImGui::PushItemWidth(width);
-    onDraw();
-    ImGui::PopItemWidth();
-    updateChildrenList();
-    for(const auto& child: childrens) {
-        child->draw();
+    if(layout) {
+        layout->draw();
     }
+    onDraw();
 }
 
 void MulWidget::update(float dt) {
-    for(const auto& child: childrens) {
-        child->update(dt);
+    if(layout) {
+        layout->update(dt);
     }
     onUpdate(dt);
 }
 
-void MulWidget::addChild(const std::shared_ptr<MulWidget>& newChild) {
-    childrensForAdd.insert(newChild);
-}
-
-void MulWidget::removeChild(const std::shared_ptr<MulWidget>& newChild) {
-    childrensForRemove.insert(newChild);
-}
-
-void MulWidget::removeChild(size_t index) {
-    childrensForRemove.insert(childrens[index]);
-}
-
 void MulWidget::onKeyPressed(const ImGuiInputEvent& event) {
-    for(const auto& child: childrens) {
-        child->onKeyPressed(event);
-    }
 }
 
-float MulWidget::getFillHorizontalSpace() const {
-    return fillHorizontalSpace;
+int MulWidget::getMinimumHeight() const {
+    return minimalHeight;
 }
 
-void MulWidget::setFillHorizontalSpace(float value) {
-    fillHorizontalSpace = value;
+int MulWidget::getMaximumHeight() const {
+    return maximumHeight;
 }
 
-float MulWidget::getWidth() const {
-    return width;
+MulFitPolicy MulWidget::getVerticalFitPolicy() const {
+    return verticalFitPolicy;
 }
 
-void MulWidget::setWidth(float value) {
-    width = value;
+void MulWidget::setMinimumHeight(int value) {
+    minimalWidth = value;
 }
 
-FitPolicy MulWidget::getFitPolicy() const {
-    return fitPolicy;
+void MulWidget::setMaximumHeight(int value) {
+    maximumWidth = value;
 }
 
-void MulWidget::setFitPolicy(FitPolicy value) {
-    fitPolicy = value;
+void MulWidget::setVeticalFitPolicy(const MulFitPolicy& value) {
+    verticalFitPolicy = value;
 }
 
-void MulWidget::updateChildrenList() {
-    childrens.insert(std::end(childrens), std::begin(childrensForAdd), std::end(childrensForAdd));
-    childrensForAdd.clear();
+int MulWidget::getMinimumWidth() const {
+    return minimalWidth;
+}
 
-    // TODO
-    for(const auto& childForRemove: childrensForRemove) {
-        auto found = std::find(std::begin(childrens), std::end(childrens), childForRemove);
-        if(found != std::end(childrens)) {
-            childrens.erase(found);
-        }
-    }
-    childrensForRemove.clear();
+int MulWidget::getMaximumWidth() const {
+    return maximumWidth;
+}
+
+MulFitPolicy MulWidget::getHorizontalFitPolicy() const {
+    return horizontalFitPolicy;
+}
+
+void MulWidget::setMinimumWidth(int value) {
+    minimalWidth = value;
+}
+
+void MulWidget::setMaximumWidth(int value) {
+    maximumWidth = value;
+}
+
+void MulWidget::setHorizontalFitPolicy(const MulFitPolicy& value) {
+    horizontalFitPolicy = value;
+}
+
+void MulWidget::setLayout(const std::shared_ptr<MulLayout>& newLayout) {
+    layout = newLayout;
+}
+
+std::shared_ptr<MulLayout> MulWidget::getLayout() const {
+    return layout;
+}
+
+void MulWidget::setWidth(int value) {
+    size.setX(value);
+}
+
+void MulWidget::setHeight(int value) {
+    size.setY(value);
+}
+
+void MulWidget::setSize(const Vec2I& value) {
+    size = value;
+}
+
+int MulWidget::getWidth() const {
+    return size.getX();
+}
+
+int MulWidget::getHeight() const {
+    return size.getY();
+}
+
+Vec2I MulWidget::getSize() const {
+    return size;
 }

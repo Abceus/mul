@@ -1,8 +1,10 @@
 #include "widgets/mul_file_picker.h"
+#include "mul_size_strategy.h"
 #include "mul_widget.h"
 #include "widgets/mul_button.h"
 #include "widgets/mul_horizontal_layout.h"
 #include "widgets/mul_label.h"
+#include "mul_size_strategy.h"
 #include <filesystem>
 #include <imgui.h>
 #include <memory>
@@ -11,7 +13,7 @@
 
 void MulFilePicker::onInit() {
     auto layout = std::make_shared<MulHorizontalLayout>();
-    addChild(layout);
+    setLayout(layout);
 
     pathLabel = std::make_shared<MulLabel>();
     layout->addChild(pathLabel);
@@ -34,8 +36,8 @@ void MulFilePicker::onInit() {
         //     std::cout << "Error: " << NFD_GetError() << std::endl;
         // }
     });
-    button->setWidth(200.0f);
-    button->setFitPolicy(FitPolicy::Fix);
+    MulFitPolicy buttonPolicy = {.type = MulFitType::Fix, .size = 200};
+    button->setHorizontalFitPolicy(buttonPolicy);
     layout->addChild(button);
 }
 

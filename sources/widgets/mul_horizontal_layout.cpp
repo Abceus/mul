@@ -1,4 +1,5 @@
 #include "widgets/mul_horizontal_layout.h"
+#include "mul_size_strategy.h"
 #include "mul_widget.h"
 #include <imgui.h>
 #include <memory>
@@ -7,25 +8,48 @@
 void MulHorizontalLayout::draw() {
     auto availableSpace = ImGui::GetContentRegionAvail().x;
     float allHorizontalSpace = 0.0f;
+
     for(const auto& child: childrens) {
-        if(child->getFitPolicy() == FitPolicy::Fix) {
-            availableSpace -= child->getWidth();
-        }
-        else {
-            allHorizontalSpace += child->getFillHorizontalSpace();
+        if(child->getHorizontalFitPolicy().type == MulFitType::Fix) {
+            auto width = std::max(child->getMinimumWidth(), child->getHorizontalFitPolicy().size);
+            if(child->getMaximumWidth() != MulWidget::UNSET_MAXIMUM_VALUE) {
+                width = std::min(width, child->getMaximumWidth());
+            }
+            availableSpace -= width;
+        } else {
+            allHorizontalSpace += child->getHorizontalFitPolicy().proportion;
         }
     }
+
     auto skipedSpace = 0.0f;
     auto startCursorPosition = ImGui::GetCursorPos().x;
-    for(const auto& child: childrens) {
-        auto currentItemWIdth = child->getFitPolicy() == FitPolicy::Fix ? child->getWidth() : availableSpace*(child->getFillHorizontalSpace()/allHorizontalSpace);
+    for(auto i = 0; i < childrens.size(); ++i) {
+        auto& child = childrens[i];
+        auto proportion = child->getHorizontalFitPolicy().proportion / allHorizontalSpace;
+        auto currentItemWidth = child->getHorizontalFitPolicy().type == MulFitType::Fix ? child->getHorizontalFitPolicy().size : static_cast<int>(availableSpace*proportion);
+        auto nonNormWidth = currentItemWidth;
+        bool changed = false;
+        if(child->getMinimumWidth() > currentItemWidth) {
+            currentItemWidth = child->getMinimumWidth();
+            changed = true;
+        }
+        else if(child->getMaximumWidth() != MulWidget::UNSET_MAXIMUM_VALUE && child->getMaximumWidth() < currentItemWidth) {
+            currentItemWidth = child->getMaximumWidth();
+            changed = true;
+        }
+
+        if(changed) {
+            auto newProportion = currentItemWidth / availableSpace;
+            allHorizontalSpace += newProportion - proportion;
+            availableSpace += currentItemWidth - nonNormWidth;
+        }
+
         ImGui::SetCursorPosX(startCursorPosition+skipedSpace);
-        child->setWidth(currentItemWIdth);
+        child->setWidth(currentItemWidth);
         child->draw();
-        skipedSpace += currentItemWIdth;
+        skipedSpace += currentItemWidth;
         ImGui::SameLine();
     }
     ImGui::NewLine();
-    onDraw();
     updateChildrenList();
 }

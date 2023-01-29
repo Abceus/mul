@@ -19,7 +19,6 @@ void MulGridLayout::draw() {
         ImGui::EndTable();
     }
 
-    onDraw();
     ImGui::PopID();
     updateChildrenList();
 }
