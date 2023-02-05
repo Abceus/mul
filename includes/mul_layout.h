@@ -16,10 +16,11 @@ public:
     void removeChild(const std::shared_ptr<MulWidget>& newChild);
     void removeChild(size_t index);
 
+    virtual void onKeyPressed(const ImGuiInputEvent& event);
 protected:
     std::vector<std::shared_ptr<MulWidget>> childrens;
-    std::set<std::shared_ptr<MulWidget>> childrensForAdd;
-    std::set<std::shared_ptr<MulWidget>> childrensForRemove;
+    std::vector<std::shared_ptr<MulWidget>> childrensForAdd;
+    std::vector<std::shared_ptr<MulWidget>> childrensForRemove;
 
     void updateChildrenList();
 };

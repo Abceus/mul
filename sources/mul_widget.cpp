@@ -22,6 +22,9 @@ void MulWidget::update(float dt) {
 }
 
 void MulWidget::onKeyPressed(const ImGuiInputEvent& event) {
+    if(layout) {
+        layout->onKeyPressed(event);
+    }
 }
 
 int MulWidget::getMinimumHeight() const {

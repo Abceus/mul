@@ -25,6 +25,7 @@ set(mul_sources
     sources/widgets/mul_checkbox.cpp
     sources/widgets/mul_combobox.cpp
     sources/widgets/mul_float_input.cpp
+    sources/widgets/mul_file_picker_base.cpp
     sources/widgets/mul_file_picker.cpp
     sources/widgets/mul_horizontal_layout.cpp
     sources/widgets/mul_vertical_layout.cpp

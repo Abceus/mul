@@ -25,6 +25,16 @@ void MulSplitter::draw() {
     ImGui::PopID();
 }
 
+void MulSplitter::onKeyPressed(const ImGuiInputEvent& event) {
+    if(firstWidget) {
+        firstWidget->onKeyPressed(event);
+    }
+
+    if(secondWidget) {
+        secondWidget->onKeyPressed(event);
+    }
+}
+
 void MulSplitter::setFirstWidget(const std::shared_ptr<MulWidget>& newWidget) {
     firstWidget = newWidget;
 

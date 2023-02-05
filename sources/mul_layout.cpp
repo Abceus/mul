@@ -19,15 +19,15 @@ void MulLayout::update(float dt) {
 }
 
 void MulLayout::addChild(const std::shared_ptr<MulWidget>& newChild) {
-    childrensForAdd.insert(newChild);
+    childrensForAdd.emplace_back(newChild);
 }
 
 void MulLayout::removeChild(const std::shared_ptr<MulWidget>& newChild) {
-    childrensForRemove.insert(newChild);
+    childrensForRemove.emplace_back(newChild);
 }
 
 void MulLayout::removeChild(size_t index) {
-    childrensForRemove.insert(childrens[index]);
+    childrensForRemove.emplace_back(childrens[index]);
 }
 
 void MulLayout::updateChildrenList() {
@@ -42,4 +42,10 @@ void MulLayout::updateChildrenList() {
         }
     }
     childrensForRemove.clear();
+}
+
+void MulLayout::onKeyPressed(const ImGuiInputEvent& event) {
+    for(const auto& child: childrens) {
+        child->onKeyPressed(event);
+    }
 }

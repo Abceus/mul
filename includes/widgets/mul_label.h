@@ -1,10 +1,12 @@
 #pragma once
 #include "mul_widget.h"
+#include "mul_text_holder_interface.h"
+#include "widgets/mul_text_holder_interface.h"
 
 #include <functional>
 #include <string>
 
-class MulLabel : public MulWidget {
+class MulLabel : public MulWidget, public MulTextHolderInterface {
 public:
     MulLabel() = default;
     void onDraw() override;
@@ -12,8 +14,8 @@ public:
     void onUpdate(float dt) override {}
     void onInit() override {}
 
-    void setText(const std::string& text);
-    std::string getText() const;
+    void setText(const std::string& text) override;
+    std::string getText() const override;
     
 private:
     std::string text;

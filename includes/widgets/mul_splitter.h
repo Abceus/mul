@@ -14,6 +14,8 @@ public:
     void onInit() override {}
     void onDraw() override {}
 
+    void onKeyPressed(const ImGuiInputEvent& event) override;
+
     void setFirstWidget(const std::shared_ptr<MulWidget>& newWidget);
     std::shared_ptr<MulWidget> getFirstWidget() const;
 
