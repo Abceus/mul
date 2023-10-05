@@ -1,17 +1,25 @@
 #include "imgui.h"
 #include "imgui_internal.h"
+#include <iostream>
 #include <iterator>
 #include <mul_widget.h>
 #include "mul_layout.h"
+#include "mul_vec2.h"
 
 void MulWidget::init() {
 }
 
 void MulWidget::draw() {
+    const auto prevAvailable = ImGui::GetContentRegionAvail();
+    const auto prevCursor = ImGui::GetCursorPos();
     if(layout) {
+        layout->setAvailable(size);
         layout->draw();
     }
     onDraw();
+    const auto postAvailable = ImGui::GetContentRegionAvail();
+    const auto postCursor = ImGui::GetCursorPos();
+    //size = Vec2I(prevAvailable.x, postCursor.y-prevCursor.y);
 }
 
 void MulWidget::update(float dt) {
@@ -25,6 +33,16 @@ void MulWidget::onKeyPressed(const ImGuiInputEvent& event) {
     if(layout) {
         layout->onKeyPressed(event);
     }
+}
+
+void MulWidget::onMouseClickEvent(const ImGuiInputEvent& event) {
+    std::cout << "Click";
+}
+
+void MulWidget::onMouseMoveEvent(const ImGuiInputEvent& event) {
+}
+
+void MulWidget::onMouseScrollEvent(const ImGuiInputEvent& event) {
 }
 
 int MulWidget::getMinimumHeight() const {
@@ -105,4 +123,18 @@ int MulWidget::getHeight() const {
 
 Vec2I MulWidget::getSize() const {
     return size;
+}
+
+MulWidget* MulWidget::getWidgetByPosition(const Vec2I& position) {
+    if(position.getX() > getWidth() || position.getY() > getHeight()) {
+        return nullptr;
+    }
+
+    if(layout) {
+        if(auto focusedChild = layout->getWidgetByPosition(position)) {
+            return focusedChild;
+        }
+    }
+
+    return this;
 }

@@ -6,7 +6,7 @@
 #include <numeric>
 
 void MulHorizontalLayout::draw() {
-    auto availableSpace = ImGui::GetContentRegionAvail().x;
+    auto availableWidth = availableSpace.getX();
     float allHorizontalSpace = 0.0f;
 
     for(const auto& child: childrens) {
@@ -15,7 +15,7 @@ void MulHorizontalLayout::draw() {
             if(child->getMaximumWidth() != MulWidget::UNSET_MAXIMUM_VALUE) {
                 width = std::min(width, child->getMaximumWidth());
             }
-            availableSpace -= width;
+            availableWidth -= width;
         } else {
             allHorizontalSpace += child->getHorizontalFitPolicy().proportion;
         }
@@ -26,7 +26,7 @@ void MulHorizontalLayout::draw() {
     for(auto i = 0; i < childrens.size(); ++i) {
         auto& child = childrens[i];
         auto proportion = child->getHorizontalFitPolicy().proportion / allHorizontalSpace;
-        auto currentItemWidth = child->getHorizontalFitPolicy().type == MulFitType::Fix ? child->getHorizontalFitPolicy().size : static_cast<int>(availableSpace*proportion);
+        auto currentItemWidth = child->getHorizontalFitPolicy().type == MulFitType::Fix ? child->getHorizontalFitPolicy().size : static_cast<int>(availableWidth*proportion);
         auto nonNormWidth = currentItemWidth;
         bool changed = false;
         if(child->getMinimumWidth() > currentItemWidth) {
@@ -39,13 +39,14 @@ void MulHorizontalLayout::draw() {
         }
 
         if(changed) {
-            auto newProportion = currentItemWidth / availableSpace;
+            auto newProportion = currentItemWidth / availableWidth;
             allHorizontalSpace += newProportion - proportion;
-            availableSpace += currentItemWidth - nonNormWidth;
+            availableWidth += currentItemWidth - nonNormWidth;
         }
 
         ImGui::SetCursorPosX(startCursorPosition+skipedSpace);
         child->setWidth(currentItemWidth);
+        child->setHeight(availableSpace.getY());
         child->draw();
         skipedSpace += currentItemWidth;
         ImGui::SameLine();

@@ -18,7 +18,8 @@ void MulFilePicker::onInit() {
     newButton->setText("Select");
     button = newButton;
 
-    MulFitPolicy buttonPolicy = {.type = MulFitType::Fix, .size = 200};
+    //MulFitPolicy buttonPolicy = {.type = MulFitType::Fix, .size = 200};
+    MulFitPolicy buttonPolicy = {.type = MulFitType::Proportion};
     newButton->setHorizontalFitPolicy(buttonPolicy);
     layout->addChild(newButton);
 

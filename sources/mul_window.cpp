@@ -1,6 +1,8 @@
 #include "mul_window.h"
+#include "imgui.h"
 #include "mul_opengl.h"
 #include "mul_context.h"
+#include "mul_vec2.h"
 
 void MulWindow::init(const std::string& title, const Vec2I& size) {
     if(!m_window) {
@@ -47,6 +49,8 @@ void MulWindow::draw() {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 
         ImGui::Begin("Hello, world!", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+        const auto windowSize = ImGui::GetWindowSize();
+        size = Vec2I(windowSize.x, windowSize.y);
         MulWidget::draw();
         ImGui::End();
         ImGui::PopStyleVar();

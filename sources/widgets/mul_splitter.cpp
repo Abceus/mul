@@ -6,22 +6,34 @@
 void MulSplitter::draw() {
     ImGui::PushID(this);
 
+    const auto prevAvailable = ImGui::GetContentRegionAvail();
+    const auto prevCursor = ImGui::GetCursorPos();
+
     if (ImGui::BeginTable("##table", 2, ImGuiTableFlags_Resizable))
     {
         if(firstWidget)
         {
             ImGui::TableNextColumn();
+            const auto width = ImGui::GetColumnWidth();
+            firstWidget->setWidth(width);
             firstWidget->draw();
         }
         if(secondWidget)
         {
             ImGui::TableNextColumn();
+            const auto width = ImGui::GetColumnWidth();
+            secondWidget->setWidth(width);
             secondWidget->draw();
         }
         ImGui::EndTable();
     }
 
     onDraw();
+
+    const auto postAvailable = ImGui::GetContentRegionAvail();
+    const auto postCursor = ImGui::GetCursorPos();
+    size = Vec2I(prevAvailable.x, postCursor.y-prevCursor.y);
+
     ImGui::PopID();
 }
 
@@ -83,4 +95,19 @@ void MulSplitter::setSecondWidget(const std::shared_ptr<MulWidget>& newWidget) {
 
 std::shared_ptr<MulWidget> MulSplitter::getSecondWidget() const {
     return secondWidget;
+}
+
+MulWidget* MulSplitter::getWidgetByPosition(const Vec2I& position) {
+    if(firstWidget) {
+        if(const auto result = firstWidget->getWidgetByPosition(position)) {
+            return result;
+        }
+    }
+    if(secondWidget) {
+        if(const auto result = secondWidget->getWidgetByPosition(position)) {
+            return result;
+        }
+    }
+
+    return this;
 }

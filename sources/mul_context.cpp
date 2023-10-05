@@ -1,7 +1,9 @@
 #include "mul_context.h"
+#include "imgui_internal.h"
 #include "mul_opengl.h"
 #include <iostream>
 #include "imgui.h"
+#include "mul_vec2.h"
 
 void MulContext::init() {
     if (!glfwInit()) {
@@ -20,6 +22,7 @@ void MulContext::init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    // io.WantCaptureMouse
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -46,6 +49,20 @@ void MulContext::run() {
                 for(const auto& event: ImGui::GetCurrentContext()->InputEventsQueue) {
                     if(event.Type == ImGuiInputEventType::ImGuiInputEventType_Key && event.Key.Down) {
                         (*it)->onKeyPressed(event);
+                    }
+                    else if(event.Type == ImGuiInputEventType_MouseButton && event.MouseButton.Down) {
+                        if(event.MouseButton.Button == ImGuiMouseButton_Left) {
+                            auto position = ImGui::GetMousePos();
+                            if(auto newFocusedWidget = (*it)->getWidgetByPosition({static_cast<int>(position.x), static_cast<int>(position.y)})) {
+                                newFocusedWidget->onMouseClickEvent(event);
+                            }
+                        }
+                    }
+                    else if(event.Type == ImGuiInputEventType_MousePos) {
+                        (*it)->onMouseMoveEvent(event);
+                    }
+                    else if(event.Type == ImGuiInputEventType_MouseWheel) {
+                        (*it)->onMouseScrollEvent(event);
                     }
                 }
                 (*it)->draw();

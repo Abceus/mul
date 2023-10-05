@@ -14,6 +14,8 @@ void MulGridLayout::draw() {
                 ImGui::TableNextRow();
             }
             ImGui::TableSetColumnIndex(column);
+            const auto width = ImGui::GetColumnWidth();
+            childrens[i]->setWidth(width);
             childrens[i]->draw();
         }
         ImGui::EndTable();

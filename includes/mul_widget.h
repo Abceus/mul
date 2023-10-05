@@ -21,6 +21,10 @@ public:
     virtual void onUpdate(float dt) = 0;
     virtual void onKeyPressed(const ImGuiInputEvent& event);
 
+    virtual void onMouseClickEvent(const ImGuiInputEvent& event);
+    virtual void onMouseMoveEvent(const ImGuiInputEvent& event);
+    virtual void onMouseScrollEvent(const ImGuiInputEvent& event);
+
     int getMinimumHeight() const;
     int getMaximumHeight() const;
     MulFitPolicy getVerticalFitPolicy() const;
@@ -47,6 +51,8 @@ public:
     int getWidth() const;
     int getHeight() const;
     Vec2I getSize() const;
+
+    virtual MulWidget* getWidgetByPosition(const Vec2I& position);
 
     static const int UNSET_MAXIMUM_VALUE = -1;
 protected:

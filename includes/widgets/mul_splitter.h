@@ -22,6 +22,7 @@ public:
     void setSecondWidget(const std::shared_ptr<MulWidget>& newWidget);
     std::shared_ptr<MulWidget> getSecondWidget() const;
 
+    MulWidget* getWidgetByPosition(const Vec2I& position) override;
 protected:
     std::shared_ptr<MulWidget> firstWidget;
     std::shared_ptr<MulWidget> secondWidget;

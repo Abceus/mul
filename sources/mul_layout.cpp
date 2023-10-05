@@ -1,5 +1,6 @@
 #include "imgui.h"
 #include "imgui_internal.h"
+#include <algorithm>
 #include <iterator>
 #include "mul_widget.h"
 #include "mul_layout.h"
@@ -48,4 +49,18 @@ void MulLayout::onKeyPressed(const ImGuiInputEvent& event) {
     for(const auto& child: childrens) {
         child->onKeyPressed(event);
     }
+}
+
+MulWidget* MulLayout::getWidgetByPosition(const Vec2I& position) const {
+    for(const auto& child: childrens) {
+        if(auto result = child->getWidgetByPosition(position)) {
+            return result;
+        }
+    }
+
+    return nullptr;
+}
+
+void MulLayout::setAvailable(const Vec2I& space) {
+    availableSpace = space;
 }
