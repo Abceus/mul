@@ -4,9 +4,7 @@
 #include "widgets/mul_horizontal_layout.h"
 #include "widgets/mul_label.h"
 #include <filesystem>
-#include <imgui.h>
 #include <memory>
-#include <nfd.h>
 
 
 void MulFilePicker::onInit() {
@@ -19,13 +17,10 @@ void MulFilePicker::onInit() {
     button = std::make_shared<MulButton>();
     button->setText("Select");
     buttonCallback = button->addClickCallback([this](){
-        nfdchar_t *outPath = NULL;
-        nfdresult_t result = NFD_OpenDialog( NULL, NULL, &outPath );
-            
-        if ( result == NFD_OKAY ) {
+        if ( false ) { // file selected
+            std::string outPath; // selected path
             pathLabel->setText(outPath);
             callbackCollection.call(outPath);
-            free(outPath);
         }
         // else if ( result == NFD_CANCEL ) {
         //     std::cout << "User pressed cancel." << std::endl;

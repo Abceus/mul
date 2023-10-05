@@ -8,6 +8,8 @@
 
 class MulWindow : public MulWidget {
 public:
+    virtual ~MulWindow() = default;
+    
     void init(const std::string& title, const Vec2I& size);
     void deinit();
 

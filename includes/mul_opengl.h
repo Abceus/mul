@@ -2,8 +2,6 @@
 //     #define NOMINMAX
 //     #include <windows.h>
 // #endif
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
 #ifndef GLEW_STATIC
 	#define GLEW_STATIC 
 #endif

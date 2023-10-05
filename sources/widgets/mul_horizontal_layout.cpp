@@ -1,11 +1,10 @@
 #include "widgets/mul_horizontal_layout.h"
 #include "mul_widget.h"
-#include <imgui.h>
 #include <memory>
 #include <numeric>
 
 void MulHorizontalLayout::draw() {
-    auto availableSpace = ImGui::GetContentRegionAvail().x;
+    auto availableSpace = 100; // space
     float allHorizontalSpace = 0.0f;
     for(const auto& child: childrens) {
         if(child->getFitPolicy() == FitPolicy::Fix) {
@@ -16,15 +15,13 @@ void MulHorizontalLayout::draw() {
         }
     }
     auto skipedSpace = 0.0f;
-    auto startCursorPosition = ImGui::GetCursorPos().x;
+    auto startCursorPosition = 10; // current
     for(const auto& child: childrens) {
         auto currentItemWIdth = child->getFitPolicy() == FitPolicy::Fix ? child->getWidth() : availableSpace*(child->getFillHorizontalSpace()/allHorizontalSpace);
-        ImGui::SetCursorPosX(startCursorPosition+skipedSpace);
+        // SetCursorPosX(startCursorPosition+skipedSpace);
         child->setWidth(currentItemWIdth);
         child->draw();
         skipedSpace += currentItemWIdth;
-        ImGui::SameLine();
     }
-    ImGui::NewLine();
     onDraw();
 }

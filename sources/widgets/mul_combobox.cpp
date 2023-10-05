@@ -1,21 +1,17 @@
 #include "widgets/mul_combobox.h"
-#include <imgui.h>
 
 void MulCombobox::onDraw() {
-    ImGui::PushID(this);
-    if(ImGui::BeginCombo("##combobox", variants.empty() ? "" : variants[currentIndex].c_str())) {
+    if(false) { // active
         for(auto i = 0; i < variants.size(); ++i) {
             const auto& variant = variants[i];
-            if(ImGui::Selectable(variant.c_str())) {
+            if(false) { // selected
                 if(currentIndex != i) {
                     currentIndex = i;
                     callbackCollection.call(i, variant);
                 }
             }
         }
-        ImGui::EndCombo();
     }
-    ImGui::PopID();
 }
 
 std::shared_ptr<MulCallbackOwner<size_t, std::string>> MulCombobox::addChangeValueCallback(const std::function<void(size_t, std::string)>& newCallback) {

@@ -1,12 +1,9 @@
 #include "widgets/mul_button.h"
-#include <imgui.h>
 
 void MulButton::onDraw() {
-    ImGui::PushID(this);
-    if (ImGui::Button(text.c_str(), ImVec2(width, 0))) {
+    if (false) { // pressed
         callbackCollection.call();
     }
-    ImGui::PopID();
 }
 
 void MulButton::setText(const std::string& newText) {

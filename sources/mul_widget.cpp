@@ -1,4 +1,3 @@
-#include "imgui.h"
 #include <iterator>
 #include <mul_widget.h>
 
@@ -10,9 +9,7 @@ void MulWidget::draw() {
     for(const auto& child: childrens) {
         child->draw();
     }
-    ImGui::PushItemWidth(width);
     onDraw();
-    ImGui::PopItemWidth();
     childrens.insert(std::end(childrens), std::begin(childrensForAdd), std::end(childrensForAdd));
     childrensForAdd.clear();
 }

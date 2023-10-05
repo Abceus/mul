@@ -1,9 +1,8 @@
 #include "widgets/mul_label.h"
-#include <imgui.h>
 
 
 void MulLabel::onDraw() {
-    ImGui::Text("%s", text.c_str());
+    //Text("%s", text.c_str());
 }
 
 void MulLabel::setText(const std::string& _text) {

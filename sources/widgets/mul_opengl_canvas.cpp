@@ -1,17 +1,16 @@
 #include "widgets/mul_opengl_canvas.h"
-#include <imgui.h>
 #include "mul_opengl.h"
-
+/*
 static void DrawCallback(const ImDrawList* parent_list, const ImDrawCmd* cmd) {
     //glBindFramebuffer(GL_FRAMEBUFFER, *static_cast<GLuint*>(cmd->UserCallbackData));
     //glViewport(0,0,1024,768);
 }
-
+*/
 void MulOpenglCanvas::onDraw() {
     glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
     glDraw();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    ImGui::Image(reinterpret_cast<void*>(renderedTexture), {300.0f, 300.0f});
+    //ImGui::Image(reinterpret_cast<void*>(renderedTexture), {300.0f, 300.0f});
     //ImGui::GetWindowDrawList()->AddCallback(&DrawCallback, &frameBufferId);
 }
 

@@ -1,15 +1,9 @@
 #include "widgets/mul_float_input.h"
-#include <imgui.h>
 
 void MulFloatInput::onDraw() {
-    ImGui::PushID(this);
-    
-    ImGui::InputFloat("##floatinput", &value, 0.1f);
-
-    if(ImGui::IsItemDeactivatedAfterEdit()) {
+    if(false) { // edited
         callbackCollection.call(value);
     }
-    ImGui::PopID();
 }
 
 std::shared_ptr<MulCallbackOwner<float>> MulFloatInput::addChangeValueCallback(const std::function<void(float)>& newCallback) {

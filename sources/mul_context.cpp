@@ -1,7 +1,6 @@
 #include "mul_context.h"
 #include "mul_opengl.h"
 #include <iostream>
-#include "imgui.h"
 
 void MulContext::init() {
     if (!glfwInit()) {
@@ -16,23 +15,9 @@ void MulContext::init() {
     glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
     glfwSwapInterval(1);
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 }
 
 void MulContext::deinit() {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-
     clearWindows();
     glfwTerminate();
 }
